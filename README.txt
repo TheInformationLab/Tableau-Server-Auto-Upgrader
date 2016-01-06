@@ -26,7 +26,10 @@ Want to make your upgrade more automated?
 4. On the triggers tab create a 'New' trigger. This can be a one off event out of business hours or if you'd like your environment to always be up to date schedule the script to run every day (not recommended for production environments but great for dev/test)
 5. On the actions tab create a 'New' action.
 6. In the Program/script box enter: Powershell.exe
-7. In the Add arguments (optional) box enter: -ExecutionPolicy Bypass D:\UpgradeTableau.ps1 (changing this last parameter to point to the location where you've extracted the UpgradeTableau.ps1 file
+7. In the Add arguments box enter: -ExecutionPolicy Bypass D:\UpgradeTableau.ps1 (changing this last parameter to point to the location where you've extracted the UpgradeTableau.ps1 file
+[Optional] You can append one of two switches to the end of the 'Add arguments' box (should you specify both -v will override -m)
+  -m : Limit the upgrade to maintenance releases only within your current minor version. i.e. Should you have 9.1.3 installed and Tableau release both 9.1.4 and a new minor version (say 9.2.2) the server will only be upgraded to 9.1.4
+  -v "x.x.x" : Specify the exact version you'd like to upgrade to by replacing x.x.x with the exact version number. e.g. -v "9.2.1"
 8. Click OK, set any other task options as necessary and click OK to save the task. You should be asked to enter the run as user's password.
 
 All outputs from your upgrade will be saved to $tabDir\UpgradeLog.txt
