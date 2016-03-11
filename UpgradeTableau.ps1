@@ -118,8 +118,14 @@ if ($v -ne "")
         $idx = (0..($json.versions.Count-1)) | where {$json.versions[$_].major_version -eq $mv}
         $idxa  = (0..($json.versions[$idx].minor_version.Count-1)) | where {$json.versions[$idx].minor_version[$_].version -eq $v}
         $latestVersion = $json.versions[$idx].minor_version[$idxa].version | select -first 1
-        $downloadLink = $json.versions[$idx].minor_version[$idxa].server_primary_installers[0].download_link
-        if ($bit -eq 32) {$downloadLink = $json.versions[$idx].minor_version[$idxa].server_primary_installers[1].download_link}
+        if ($json.versions[0].minor_version[$idx].server_primary_installers[0].name -like "*$bitbit*")
+            {
+               $downloadLink = $json.versions[$idx].minor_version[$idxa].server_primary_installers[0].download_link
+            }
+        else
+            {
+               $downloadLink = $json.versions[$idx].minor_version[$idxa].server_primary_installers[1].download_link
+            }
         $newDir = $json.versions[$idx].major_version
         $A = Get-Date; Write-Output "[$A] Chosen version of Tableau Server is $latestVersion" | Tee-Object -file "$tabDir\UpgradeLog.txt" -Append
     }
@@ -128,16 +134,28 @@ elseif ($m)
         $idx = (0..($json.versions.Count-1)) | where {$json.versions[$_].major_version -eq $version[1]+"."+$version[2]}
         $idxa = (0..($json.versions[0].minor_version.Count-1)) | where {$json.versions[0].minor_version[$_].server_primary_installers.Count -gt 0} | select -first 1
         $latestVersion = $json.versions[$idx].minor_version[$idxa].version | select -first 1
-        $downloadLink = $json.versions[$idx].minor_version[$idxa].server_primary_installers[0].download_link
-        if ($bit -eq 32) {$downloadLink = $json.versions[$idx].minor_version[$idxa].server_primary_installers[1].download_link}
+        if ($json.versions[0].minor_version[$idx].server_primary_installers[0].name -like "*$bitbit*")
+            {
+                $downloadLink = $json.versions[$idx].minor_version[$idxa].server_primary_installers[0].download_link
+            }
+        else
+            {
+                $downloadLink = $json.versions[$idx].minor_version[$idxa].server_primary_installers[1].download_link
+            }
         $newDir = $json.versions[$idx].major_version
         $A = Get-Date; Write-Output "[$A] Latest maintenance release of Tableau Server is $latestVersion" | Tee-Object -file "$tabDir\UpgradeLog.txt" -Append
     }
 else {
         $idx = (0..($json.versions[0].minor_version.Count-1)) | where {$json.versions[0].minor_version[$_].server_primary_installers.Count -gt 0} | select -first 1
         $latestVersion = $json.versions[0].minor_version[$idx].version | select -first 1
-        $downloadLink = $json.versions[0].minor_version[$idx].server_primary_installers[0].download_link
-        if ($bit -eq 32) {$downloadLink = $json.versions[0].minor_version[$idx].server_primary_installers[1].download_link}
+        if ($json.versions[0].minor_version[$idx].server_primary_installers[0].name -like "*$bitbit*")
+            {
+                $downloadLink = $json.versions[0].minor_version[$idx].server_primary_installers[0].download_link
+            }
+        else
+            {
+                $downloadLink = $json.versions[0].minor_version[$idx].server_primary_installers[1].download_link
+            }
         $newDir = $json.versions[0].major_version
         $A = Get-Date; Write-Output "[$A] Latest version of Tableau Server is $latestVersion" | Tee-Object -file "$tabDir\UpgradeLog.txt" -Append
     }
