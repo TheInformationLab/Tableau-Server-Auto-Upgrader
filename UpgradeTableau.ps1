@@ -110,6 +110,7 @@ $version = $matches;
 $installedVersion = $version[1] + "." + $version[2] + "." + $version[3]
 
 $A = Get-Date; Write-Output "[$A] Currently you have Tableau Server version $installedVersion installed" | Tee-Object -file "$tabDir\UpgradeLog.txt" -Append
+$bitTest = $bit.ToString() + "bit"
 
 if ($v -ne "")
     {
@@ -118,7 +119,7 @@ if ($v -ne "")
         $idx = (0..($json.versions.Count-1)) | where {$json.versions[$_].major_version -eq $mv}
         $idxa  = (0..($json.versions[$idx].minor_version.Count-1)) | where {$json.versions[$idx].minor_version[$_].version -eq $v}
         $latestVersion = $json.versions[$idx].minor_version[$idxa].version | select -first 1
-        if ($json.versions[0].minor_version[$idx].server_primary_installers[0].name -like "*$bitbit*")
+        if ($json.versions[0].minor_version[$idx].server_primary_installers[0].name -like "*$bittest*")
             {
                $downloadLink = $json.versions[$idx].minor_version[$idxa].server_primary_installers[0].download_link
             }
@@ -134,7 +135,7 @@ elseif ($m)
         $idx = (0..($json.versions.Count-1)) | where {$json.versions[$_].major_version -eq $version[1]+"."+$version[2]}
         $idxa = (0..($json.versions[0].minor_version.Count-1)) | where {$json.versions[0].minor_version[$_].server_primary_installers.Count -gt 0} | select -first 1
         $latestVersion = $json.versions[$idx].minor_version[$idxa].version | select -first 1
-        if ($json.versions[0].minor_version[$idx].server_primary_installers[0].name -like "*$bitbit*")
+        if ($json.versions[0].minor_version[$idx].server_primary_installers[0].name -like "*$bittest*")
             {
                 $downloadLink = $json.versions[$idx].minor_version[$idxa].server_primary_installers[0].download_link
             }
@@ -148,7 +149,7 @@ elseif ($m)
 else {
         $idx = (0..($json.versions[0].minor_version.Count-1)) | where {$json.versions[0].minor_version[$_].server_primary_installers.Count -gt 0} | select -first 1
         $latestVersion = $json.versions[0].minor_version[$idx].version | select -first 1
-        if ($json.versions[0].minor_version[$idx].server_primary_installers[0].name -like "*$bitbit*")
+        if ($json.versions[0].minor_version[$idx].server_primary_installers[0].name -like "*$bittest*")
             {
                 $downloadLink = $json.versions[0].minor_version[$idx].server_primary_installers[0].download_link
             }
